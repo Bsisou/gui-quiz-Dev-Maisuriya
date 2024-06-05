@@ -71,11 +71,12 @@ class StartPage:
         self.quiz_canvas = tk.Canvas(parent, bg="#290f42")
         self.quiz_canvas.pack(side="top", expand=True, fill=tk.BOTH)
         self.bg_image = ImageTk.PhotoImage(Image.open("resizedstarterpagev2.png"))
+
         
         self.start_button = tk.Button(self.quiz_canvas, bg=secondary_colour, text="Play", font=("Arial Narrow", 9, "bold"), activebackground="#69248f", highlightthickness=0, foreground="#edd818", width=20)
         self.start_button.pack()
 
-        self.howtoplay_button = tk.Button(self.quiz_canvas, bg=secondary_colour, text="How To Play", font=("Arial Narrow", 9, "bold"), activebackground="#69248f", highlightthickness=0, foreground="#edd818", width=20)
+        self.howtoplay_button = tk.Button(self.quiz_canvas, command=self.tutorial_button_click, bg=secondary_colour, text="How To Play", font=("Arial Narrow", 9, "bold"), activebackground="#69248f", highlightthickness=0, foreground="#edd818", width=20)
         self.howtoplay_button.pack()
         
         self.quiz_canvas.create_image(0, 0, image=self.bg_image, anchor="nw")
@@ -88,9 +89,16 @@ class StartPage:
         window.update()
         print("done")
 
+    #function for "how to play" button clicked
+    def tutorial_button_click(self):
+        print("clicked")
+        self.quiz_canvas.destroy()
+        self.start_page = HowToPlayPage(window)
+
+    #resize components relative to resize of window
     def on_resize(self, event=None):
         self.bg_image = Image.open("resizedstarterpagev2.png")
-
+        
         ratio = self.quiz_canvas.winfo_width() / 634
         print(ratio)
         if 469 * ratio > self.quiz_canvas.winfo_height():
@@ -99,7 +107,7 @@ class StartPage:
 
         if ratio <= 0:
             return
-
+    
         #finding entry box place relative to size of window
         width = int(634 * ratio)
         height = int(469 * ratio)
@@ -125,6 +133,15 @@ class StartPage:
 
 class HowToPlayPage:
     def __init__(self, parent):
+        print("DONE WOW")
+        self.quiz_canvas = tk.Canvas(parent, bg="#290f42")
+        self.quiz_canvas.pack(expand=True, fill=tk.BOTH)
+
+        self.bg_image = ImageTk.PhotoImage(Image.open("howtoplaypagev2.png"))
+        self.quiz_canvas.create_image(0, 0, image=self.bg_image, anchor="nw")
+        window.update()
+
+    
 
 #Starting Point of Quiz
 if __name__ == "__main__":
