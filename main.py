@@ -161,6 +161,15 @@ class HowToPlayPage:
         self.instruction_label4.place_configure(x=100, y=290)
         self.instruction_label5.place_configure(x=100, y=330)
 
+        self.back_button = tk.Button(self.quiz_canvas, command=self.back_button_function, bg="#5D088E", text="Go Back", font=("Arial Narrow", 18, "bold"), fg="#edd818",activebackground="#69248f", highlightthickness=0)
+
+        self.back_button.pack()
+        self.back_button.place_configure(x=15, y=415)
+
+    def back_button_function(self):
+        print("clicked")
+        self.quiz_canvas.destroy()
+        self.start_page = StartPage(window)
 
         
 #Starting Point of Quiz
