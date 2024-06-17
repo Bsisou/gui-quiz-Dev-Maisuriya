@@ -4,14 +4,16 @@ from PIL import Image, ImageTk
 #5D088E is the primary purple colour for my quiz images
 namesList = []
 asked = []
-secondary_colour = "#5D088E"
 
 class NameEnter:
     def __init__(self, parent):
+
+        global bg_image
+        
         self.quiz_canvas = tk.Canvas(parent, bg="#290f42")
         self.quiz_canvas.pack(expand=True, fill=tk.BOTH)
 
-        self.enter_name = tk.Entry(self.quiz_canvas, bg=secondary_colour, highlightthickness=0, foreground="#edd818", font=("Arial Narrow", 18, "bold"))
+        self.enter_name = tk.Entry(self.quiz_canvas, bg="#5D088E", highlightthickness=0, foreground="#edd818", font=("Arial Narrow", 18, "bold"))
         self.enter_name.pack(anchor=tk.CENTER)
         
         self.bg_image = ImageTk.PhotoImage(Image.open("enternamepage.png"))
@@ -73,10 +75,10 @@ class StartPage:
         self.bg_image = ImageTk.PhotoImage(Image.open("resizedstarterpagev2.png"))
 
         
-        self.start_button = tk.Button(self.quiz_canvas, bg=secondary_colour, text="Play", font=("Arial Narrow", 9, "bold"), activebackground="#69248f", highlightthickness=0, foreground="#edd818", width=20)
+        self.start_button = tk.Button(self.quiz_canvas, bg="#5D088E", text="Play", font=("Arial Narrow", 9, "bold"), activebackground="#69248f", highlightthickness=0, foreground="#edd818", width=20)
         self.start_button.pack()
 
-        self.howtoplay_button = tk.Button(self.quiz_canvas, command=self.tutorial_button_click, bg=secondary_colour, text="How To Play", font=("Arial Narrow", 9, "bold"), activebackground="#69248f", highlightthickness=0, foreground="#edd818", width=20)
+        self.howtoplay_button = tk.Button(self.quiz_canvas, command=self.tutorial_button_click, bg="#5D088E", text="How To Play", font=("Arial Narrow", 9, "bold"), activebackground="#69248f", highlightthickness=0, foreground="#edd818", width=20)
         self.howtoplay_button.pack()
         
         self.quiz_canvas.create_image(0, 0, image=self.bg_image, anchor="nw")
@@ -141,8 +143,26 @@ class HowToPlayPage:
         self.quiz_canvas.create_image(0, 0, image=self.bg_image, anchor="nw")
         window.update()
 
-    
+        self.instruction_label = tk.Label(self.quiz_canvas, bg="#5D088E", text= "- Click on one of the multichoice answers to", fg="#edd818", font=("Arial Narrow", 13, "bold"))
+        self.instruction_label2 = tk.Label(self.quiz_canvas, bg="#5D088E", text= "proceed to the next question", fg="#edd818", font=("Arial Narrow", 13, "bold"))
+        self.instruction_label3 = tk.Label(self.quiz_canvas, bg="#5D088E", text= "- You have to think outside the box", fg="#edd818", font=("Arial Narrow", 13, "bold"))
+        self.instruction_label4 = tk.Label(self.quiz_canvas, bg="#5D088E", text= "- There's no time limit. Take your time", fg="#edd818", font=("Arial Narrow", 13, "bold"))
+        self.instruction_label5 = tk.Label(self.quiz_canvas, bg="#5D088E", text= "- Good luck and have fun!", fg="#edd818", font=("Arial Narrow", 13, "bold"))
+        
+        self.instruction_label.pack()
+        self.instruction_label2.pack()
+        self.instruction_label3.pack()
+        self.instruction_label4.pack()
+        self.instruction_label5.pack()
 
+        self.instruction_label.place_configure(x=100, y=180)
+        self.instruction_label2.place_configure(x=100, y=210)
+        self.instruction_label3.place_configure(x=100, y=250)
+        self.instruction_label4.place_configure(x=100, y=290)
+        self.instruction_label5.place_configure(x=100, y=330)
+
+
+        
 #Starting Point of Quiz
 if __name__ == "__main__":
     window = tk.Tk()
