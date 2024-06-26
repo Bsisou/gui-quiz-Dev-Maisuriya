@@ -5,6 +5,10 @@ from PIL import Image, ImageTk
 namesList = []
 asked = []
 
+questions_and_answers = {
+    "What can't you do out of these?": ["Sleep on 30th feb", "Fly", "Swim", "Drive"],
+}
+
 class NameEnter:
     def __init__(self, parent):
 
@@ -75,7 +79,7 @@ class StartPage:
         self.bg_image = ImageTk.PhotoImage(Image.open("resizedstarterpagev2.png"))
 
         
-        self.start_button = tk.Button(self.quiz_canvas, bg="#5D088E", text="Play", font=("Arial Narrow", 9, "bold"), activebackground="#69248f", highlightthickness=0, foreground="#edd818", width=20)
+        self.start_button = tk.Button(self.quiz_canvas, bg="#5D088E", text="Play", command=self.play_button_clicked, font=("Arial Narrow", 9, "bold"), activebackground="#69248f", highlightthickness=0, foreground="#edd818", width=20)
         self.start_button.pack()
 
         self.howtoplay_button = tk.Button(self.quiz_canvas, command=self.tutorial_button_click, bg="#5D088E", text="How To Play", font=("Arial Narrow", 9, "bold"), activebackground="#69248f", highlightthickness=0, foreground="#edd818", width=20)
@@ -96,6 +100,11 @@ class StartPage:
         print("clicked")
         self.quiz_canvas.destroy()
         self.start_page = HowToPlayPage(window)
+
+    def play_button_clicked(self):
+        print("clicked")
+        self.quiz_canvas.destroy()
+        self.start_page = QuestionPage(window)
 
     #resize components relative to resize of window
     def on_resize(self, event=None):
@@ -149,18 +158,11 @@ class HowToPlayPage:
         self.instruction_label4 = tk.Label(self.quiz_canvas, bg="#5D088E", text= "- There's no time limit. Take your time", fg="#edd818", font=("Arial Narrow", 13, "bold"))
         self.instruction_label5 = tk.Label(self.quiz_canvas, bg="#5D088E", text= "- Good luck and have fun!", fg="#edd818", font=("Arial Narrow", 13, "bold"))
         
-        self.instruction_label.pack()
-        self.instruction_label2.pack()
-        self.instruction_label3.pack()
-        self.instruction_label4.pack()
-        self.instruction_label5.pack()
-
-        self.instruction_label.place_configure(x=100, y=180)
-        self.instruction_label2.place_configure(x=100, y=210)
-        self.instruction_label3.place_configure(x=100, y=250)
-        self.instruction_label4.place_configure(x=100, y=290)
-        self.instruction_label5.place_configure(x=100, y=330)
-
+        self.instruction_label.place(x=100, y=180)
+        self.instruction_label2.place(x=100, y=210)
+        self.instruction_label3.place(x=100, y=250)
+        self.instruction_label4.place(x=100, y=290)
+        self.instruction_label5.place(x=100, y=330)
         self.back_button = tk.Button(self.quiz_canvas, command=self.back_button_function, bg="#5D088E", text="Go Back", font=("Arial Narrow", 18, "bold"), fg="#edd818",activebackground="#69248f", highlightthickness=0)
 
         self.back_button.pack()
@@ -171,7 +173,17 @@ class HowToPlayPage:
         self.quiz_canvas.destroy()
         self.start_page = StartPage(window)
 
-        
+class QuestionPage:
+    def __init__(self, parent):
+        print("Works")
+        self.quiz_canvas = tk.Canvas(parent, bg="#290f42")
+        self.quiz_canvas.pack(expand=True, fill=tk.BOTH)
+
+        self.bg_image = ImageTk.PhotoImage(Image.open("questionsbackground.png"))
+        self.quiz_canvas.create_image(0, 0, image=self.bg_image, anchor="nw")
+        window.update()
+
+
 #Starting Point of Quiz
 if __name__ == "__main__":
     window = tk.Tk()
