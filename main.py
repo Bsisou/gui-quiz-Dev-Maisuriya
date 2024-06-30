@@ -10,12 +10,15 @@ player_score = 0
 
 questions_and_answers = {
     1: ["What can't you do out of these?", "Sleep on 30th feb", "Fly", "Swim", "Drive", "Sleep on 30th feb", 1],
-    2: ["What is the capital of France?", "Paris", "London", "Berlin", "Rome", "Paris", 1]
+    2: ["What is the capital of France?", "Paris", "London", "Berlin", "Rome", "Paris", 1],
+    3: ["What is the capital of Germany?", "Paris", "London", "Berlin", "Rome", "Berlin", 3],
+    4: ["What is the capital of Italy?", "Paris", "London", "Berlin", "Rome", "Rome", 4],
+    5: ["What is the capital of Spain?", "Paris", "Madrid", "Berlin", "Madrid", "Madrid", 2]
 }
 
 def question_randomiser():
     global qnum
-    qnum = random.randint(1,2)
+    qnum = random.randint(1,5)
     if qnum not in asked_questions:
         asked_questions.append(qnum)
     elif qnum in asked_questions:
@@ -231,11 +234,14 @@ class QuestionPage:
         global player_score
         score_label = self.score_display
         selection = self.var1.get()
-        if len(asked_questions) > 1:
+        if len(asked_questions) > 4:
             if selection == questions_and_answers[qnum][6]:
                 player_score += 1
                 score_label.config(text="Score: " + str(player_score))
                 self.confirm_button.config(text="Confirm")
+            elif selection == 0:
+                self.confirm_button.config(text="Please select an answer")
+                selection = self.var1.get()
             else:
                 player_score += 0
                 score_label.config(text="The correct answer was: " + questions_and_answers[qnum][5])
