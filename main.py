@@ -194,7 +194,22 @@ class QuestionPage:
 
         
         
+        self.question = tk.Label(self.quiz_canvas, fg="#5D088E", bg="#edd818", text=questions_and_answers[qnum][0], font=("Arial Narrow", 24, "bold"))
+        self.question.grid(row=1, padx=30, pady=50)
 
+        self.var1 = tk.IntVar()
+
+        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][1], value=1, variable=self.var1, font=("Arial Narrow", 18), bg="#edd818", highlightthickness=0)
+        self.answer1.grid(row=2)
+
+        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][2], value=2, variable=self.var1, font=("Arial Narrow", 18), bg="#edd818", highlightthickness=0)
+        self.answer1.grid(row=3)
+
+        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][3], value=3, variable=self.var1, font=("Arial Narrow", 18), bg="#edd818", highlightthickness=0)
+        self.answer1.grid(row=4)
+
+        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][4], value=1, variable=self.var1, font=("Arial Narrow", 18), bg="#edd818", highlightthickness=0)
+        self.answer1.grid(row=5)
 
 #Starting Point of Quiz
 if __name__ == "__main__":
