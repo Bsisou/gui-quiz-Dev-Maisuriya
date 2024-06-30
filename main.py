@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import random
+import time
 
 #5D088E is the primary purple colour for my quiz images
 names_store = []
@@ -210,14 +211,50 @@ class QuestionPage:
         self.answer4 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][4], value=4, variable=self.var1, font=("Arial Narrow", 18), bg="#F3D915", fg="#5D088E", highlightthickness=0, pady=10)
         self.answer4.grid(row=5)
 
-        self.confirm_button = tk.Button(self.quiz_canvas, bg="#5D088E", text="Confirm", fg="#edd818", highlightthickness=0, font=("Arial Narrow", 18, "bold"))
+        self.confirm_button = tk.Button(self.quiz_canvas, bg="#5D088E", text="Confirm", command=self.test_progress, fg="#edd818", highlightthickness=0, font=("Arial Narrow", 18, "bold"))
         self.confirm_button.grid(row=6, pady=20)
 
         self.score_display = tk.Label(self.quiz_canvas, text="Score",  bg="#5D088E", fg="#edd818", font=("Arial Narrow", 18))
         self.score_display.grid(row=7, pady=5)
     
- 
-        
+    def next_question(self):
+        question_randomiser()
+        self.var1.set(0)
+        self.question.config(text=questions_and_answers[qnum][0])
+
+        self.answer1.config(text=questions_and_answers[qnum][1])
+        self.answer2.config(text=questions_and_answers[qnum][2])
+        self.answer3.config(text=questions_and_answers[qnum][3])
+        self.answer4.config(text=questions_and_answers[qnum][4])
+
+    def test_progress(self):
+        global player_score
+        score_label = self.score_display
+        selection = self.var1.get()
+        if len(asked_questions) > 1:
+            if selection == questions_and_answers[qnum][6]:
+                player_score += 1
+                score_label.config(text="Score: " + str(player_score))
+                self.confirm_button.config(text="Confirm")
+            else:
+                player_score += 0
+                score_label.config(text="The correct answer was: " + questions_and_answers[qnum][5])
+                self.confirm_button.config(text="Confirm")
+        else:
+            if selection == 0:
+                self.confirm_button.config(text="Please select an answer")
+                selection = self.var1.get()
+            else:
+                if selection == questions_and_answers[qnum][6]:
+                    player_score += 1
+                    score_label.config(text="Score: " + str(player_score))
+                    self.next_question()
+                    self.confirm_button.config(text="Confirm")
+                else:
+                    player_score += 0
+                    score_label.config(text="The correct answer was: " + questions_and_answers[qnum][5])
+                    self.confirm_button.config(text="Confirm")
+                    self.next_question()
         
 
 #Starting Point of Quiz
