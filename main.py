@@ -5,6 +5,7 @@ import random
 #5D088E is the primary purple colour for my quiz images
 names_store = []
 asked_questions = []
+player_score = 0
 
 questions_and_answers = {
     1: ["What can't you do out of these?", "Sleep on 30th feb", "Fly", "Swim", "Drive", "Sleep on 30th feb", 1],
@@ -191,25 +192,33 @@ class QuestionPage:
         self.bg_image = ImageTk.PhotoImage(Image.open("questionsbackground.png"))
         self.quiz_canvas.create_image(0, 0, image=self.bg_image, anchor="nw")
         window.update()
-
         
-        
-        self.question = tk.Label(self.quiz_canvas, fg="#5D088E", bg="#edd818", text=questions_and_answers[qnum][0], font=("Arial Narrow", 24, "bold"))
-        self.question.grid(row=1, padx=30, pady=50)
+        self.question = tk.Label(self.quiz_canvas, fg="#5D088E", bg="#F3D915", text=questions_and_answers[qnum][0], font=("Arial Narrow", 24, "bold"))
+        self.question.grid(row=1, padx=30, pady=40)
 
         self.var1 = tk.IntVar()
 
-        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][1], value=1, variable=self.var1, font=("Arial Narrow", 18), bg="#edd818", highlightthickness=0)
+        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][1], value=1, variable=self.var1, font=("Arial Narrow", 18), bg="#F3D915", fg="#5D088E", highlightthickness=0, pady=10)
         self.answer1.grid(row=2)
 
-        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][2], value=2, variable=self.var1, font=("Arial Narrow", 18), bg="#edd818", highlightthickness=0)
-        self.answer1.grid(row=3)
+        self.answer2 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][2], value=2, variable=self.var1, font=("Arial Narrow", 18), bg="#F3D915", fg="#5D088E", highlightthickness=0, pady=10)
+        self.answer2.grid(row=3)
 
-        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][3], value=3, variable=self.var1, font=("Arial Narrow", 18), bg="#edd818", highlightthickness=0)
-        self.answer1.grid(row=4)
+        self.answer3 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][3], value=3, variable=self.var1, font=("Arial Narrow", 18), bg="#F3D915", fg="#5D088E", highlightthickness=0, pady=10)
+        self.answer3.grid(row=4)
 
-        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][4], value=1, variable=self.var1, font=("Arial Narrow", 18), bg="#edd818", highlightthickness=0)
-        self.answer1.grid(row=5)
+        self.answer4 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][4], value=4, variable=self.var1, font=("Arial Narrow", 18), bg="#F3D915", fg="#5D088E", highlightthickness=0, pady=10)
+        self.answer4.grid(row=5)
+
+        self.confirm_button = tk.Button(self.quiz_canvas, bg="#5D088E", text="Confirm", fg="#edd818", highlightthickness=0, font=("Arial Narrow", 18, "bold"))
+        self.confirm_button.grid(row=6, pady=20)
+
+        self.score_display = tk.Label(self.quiz_canvas, text="Score",  bg="#5D088E", fg="#edd818", font=("Arial Narrow", 18))
+        self.score_display.grid(row=7, pady=5)
+    
+ 
+        
+        
 
 #Starting Point of Quiz
 if __name__ == "__main__":
