@@ -1,18 +1,26 @@
 import tkinter as tk
 from PIL import Image, ImageTk
+import random
 
 #5D088E is the primary purple colour for my quiz images
-namesList = []
-asked = []
+names_store = []
+asked_questions = []
 
 questions_and_answers = {
-    "What can't you do out of these?": ["Sleep on 30th feb", "Fly", "Swim", "Drive"],
+    1: ["What can't you do out of these?", "Sleep on 30th feb", "Fly", "Swim", "Drive", "Sleep on 30th feb", 1],
+    2: ["What is the capital of France?", "Paris", "London", "Berlin", "Rome", "Paris", 1]
 }
+
+def question_randomiser():
+    global qnum
+    qnum = random.randint(1,2)
+    if qnum not in asked_questions:
+        asked_questions.append(qnum)
+    elif qnum in asked_questions:
+        question_randomiser()
 
 class NameEnter:
     def __init__(self, parent):
-
-        global bg_image
         
         self.quiz_canvas = tk.Canvas(parent, bg="#290f42")
         self.quiz_canvas.pack(expand=True, fill=tk.BOTH)
@@ -67,8 +75,8 @@ class NameEnter:
         if name != "":
             self.quiz_canvas.pack_forget()
             self.quiz_canvas.destroy()
-            namesList.append(name)
-            print(namesList)
+            names_store.append(name)
+            print(names_store)
             self.start_page = StartPage(window)
             
 class StartPage:
@@ -103,8 +111,9 @@ class StartPage:
 
     def play_button_clicked(self):
         print("clicked")
+        question_randomiser()
         self.quiz_canvas.destroy()
-        self.start_page = QuestionPage(window)
+        self.start_page = QuestionPage(window, qnum)
 
     #resize components relative to resize of window
     def on_resize(self, event=None):
@@ -174,14 +183,17 @@ class HowToPlayPage:
         self.start_page = StartPage(window)
 
 class QuestionPage:
-    def __init__(self, parent):
+    def __init__(self, parent, qnum):
         print("Works")
         self.quiz_canvas = tk.Canvas(parent, bg="#290f42")
         self.quiz_canvas.pack(expand=True, fill=tk.BOTH)
-
+        
         self.bg_image = ImageTk.PhotoImage(Image.open("questionsbackground.png"))
         self.quiz_canvas.create_image(0, 0, image=self.bg_image, anchor="nw")
         window.update()
+
+        
+        
 
 
 #Starting Point of Quiz
