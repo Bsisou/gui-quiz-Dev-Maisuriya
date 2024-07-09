@@ -202,16 +202,16 @@ class QuestionPage:
 
         self.var1 = tk.IntVar()
 
-        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][1], value=1, variable=self.var1, font=("Arial Narrow", 18), bg="#F3D915", fg="#5D088E", highlightthickness=0, pady=10)
+        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][1], value=1, variable=self.var1, font=("Arial Narrow", 18), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
         self.answer1.grid(row=2)
 
-        self.answer2 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][2], value=2, variable=self.var1, font=("Arial Narrow", 18), bg="#F3D915", fg="#5D088E", highlightthickness=0, pady=10)
+        self.answer2 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][2], value=2, variable=self.var1, font=("Arial Narrow", 18), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
         self.answer2.grid(row=3)
 
-        self.answer3 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][3], value=3, variable=self.var1, font=("Arial Narrow", 18), bg="#F3D915", fg="#5D088E", highlightthickness=0, pady=10)
+        self.answer3 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][3], value=3, variable=self.var1, font=("Arial Narrow", 18), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
         self.answer3.grid(row=4)
 
-        self.answer4 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][4], value=4, variable=self.var1, font=("Arial Narrow", 18), bg="#F3D915", fg="#5D088E", highlightthickness=0, pady=10)
+        self.answer4 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][4], value=4, variable=self.var1, font=("Arial Narrow", 18), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
         self.answer4.grid(row=5)
 
         self.confirm_button = tk.Button(self.quiz_canvas, bg="#5D088E", text="Confirm", command=self.test_progress, fg="#edd818", highlightthickness=0, font=("Arial Narrow", 18, "bold"))
