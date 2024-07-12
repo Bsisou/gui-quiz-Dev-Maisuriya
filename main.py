@@ -1,32 +1,27 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import random
-import time
 
 #5D088E is the primary purple colour for my quiz images
 names_store = []
 asked_questions = []
-player_score = 0
 
 questions_and_answers = {
     1: ["What can't you do out of these?", "Sleep on 30th feb", "Fly", "Swim", "Drive", "Sleep on 30th feb", 1],
-    2: ["What is the capital of France?", "Paris", "London", "Berlin", "Rome", "Paris", 1],
-    3: ["What is the capital of Germany?", "Paris", "London", "Berlin", "Rome", "Berlin", 3],
-    4: ["What is the capital of Italy?", "Paris", "London", "Berlin", "Rome", "Rome", 4],
-    5: ["What is the capital of Spain?", "Paris", "Madrid", "Berlin", "Madrid", "Madrid", 2]
+    2: ["What has an eye but can't see?", "Needle", "Hurricane", "Blind Man", "Owl", "Needle", 1],
+    3: ["What belongs to you but others use it more than you do?", "Your Money", "Your Ideas", "Your Time", "Your Name", "Your Name", 4],
+    4: ["What travels around the world while staying in a corner?", "Globe", "Stamp", "Postage", "Airplane", "Stamp", 2],
+    5: ["Forward I am heavy, but backward I am not. What am I?", "Stone", "Weight", "Ton", "Not", "Ton", 3],
+    6: ["What has cities but no houses, forests but no trees?", "Map", "Book", "Atlas", "Globe", "Map", 1],
+    7: ["What can you hold without ever using your hands?", "Breath", "Thought", "Air", "Sight", "Air", 3],
+    8: ["What gets wetter as it dries?", "Sponge", "Towel", "Soap", "Cloth", "Towel", 2],
+    9: ["What has a neck but no head?", "Bottle", "Shirt", "Cup", "Shoe", "Bottle", 1],
+    10: ["What has one head, one foot, and four legs?", "Bed", "Chair", "Table", "Clock", "Table", 3]
 }
 
-def question_randomiser():
-    global qnum
-    qnum = random.randint(1,5)
-    if qnum not in asked_questions:
-        asked_questions.append(qnum)
-    elif qnum in asked_questions:
-        question_randomiser()
-
 class NameEnter:
+    #initializes all the objects inside of the NameEnter class
     def __init__(self, parent):
-        
         self.quiz_canvas = tk.Canvas(parent, bg="#290f42")
         self.quiz_canvas.pack(expand=True, fill=tk.BOTH)
 
@@ -38,10 +33,13 @@ class NameEnter:
         window.update()
         self.on_resize()
 
+        self.next_button = tk.Button(self.quiz_canvas, command=self.to_start_page, bg="#5D088E", text="Next", font=("Arial Narrow", 18, "bold"), fg="#edd818",activebackground="#69248f", highlightthickness=0)
+        self.next_button.place(x=530, y=390)
         
         self.quiz_canvas.bind("<Configure>", self.on_resize)
         self.enter_name.bind("<Return>", self.name_storage)
-    
+
+    #function for resizing the canvas
     def on_resize(self, event=None):
         self.bg_image = Image.open("enternamepage.png")
 
@@ -73,7 +71,8 @@ class NameEnter:
         ratio2 = 250/634
         entry_size = width * ratio2
         self.enter_name.place_configure(x=width/2 - int(entry_size)/2, y=button_ratio, width=int(entry_size))
-    
+
+    #function for storing the name and intialising the next class
     def name_storage(self, event):
         print("here")
         name = self.enter_name.get()
@@ -83,8 +82,15 @@ class NameEnter:
             names_store.append(name)
             print(names_store)
             self.start_page = StartPage(window)
-            
+
+    def to_start_page(self):
+        name = self.enter_name.get()
+        if name != "":
+            self.quiz_canvas.destroy()
+            self.start_page = StartPage(window)
+        
 class StartPage:
+    #initializes all the objects inside of the StartPage class
     def __init__(self, parent):
         print("StartPage works")
         self.quiz_canvas = tk.Canvas(parent, bg="#290f42")
@@ -114,11 +120,11 @@ class StartPage:
         self.quiz_canvas.destroy()
         self.start_page = HowToPlayPage(window)
 
+    #function for "play" button clicked
     def play_button_clicked(self):
         print("clicked")
-        question_randomiser()
         self.quiz_canvas.destroy()
-        self.start_page = QuestionPage(window, qnum)
+        self.start_page = QuestionPage(window)
 
     #resize components relative to resize of window
     def on_resize(self, event=None):
@@ -157,6 +163,7 @@ class StartPage:
         self.howtoplay_button.place_configure(x=width/2 - self.start_button.winfo_width()/2, y=button_location2)
 
 class HowToPlayPage:
+    #initializes all the objects inside of the HowToPlay class
     def __init__(self, parent):
         print("DONE WOW")
         self.quiz_canvas = tk.Canvas(parent, bg="#290f42")
@@ -182,14 +189,21 @@ class HowToPlayPage:
         self.back_button.pack()
         self.back_button.place_configure(x=15, y=415)
 
+    #function for "go back" button clicked leading back to start page
     def back_button_function(self):
         print("clicked")
         self.quiz_canvas.destroy()
         self.start_page = StartPage(window)
 
 class QuestionPage:
-    def __init__(self, parent, qnum):
+    #initializes all the objects inside of the QuestionPage class
+    def __init__(self, parent):
+
+        self.question_randomiser()
+        
         print("Works")
+        player_score = 0
+        self.player_score = player_score
         self.quiz_canvas = tk.Canvas(parent, bg="#290f42")
         self.quiz_canvas.pack(expand=True, fill=tk.BOTH)
         
@@ -197,68 +211,84 @@ class QuestionPage:
         self.quiz_canvas.create_image(0, 0, image=self.bg_image, anchor="nw")
         window.update()
         
-        self.question = tk.Label(self.quiz_canvas, fg="#5D088E", bg="#F3D915", text=questions_and_answers[qnum][0], font=("Arial Narrow", 24, "bold"))
-        self.question.grid(row=1, padx=30, pady=40)
+        self.question = tk.Label(self.quiz_canvas, fg="#5D088E", bg="#F3D915", text=questions_and_answers[self.qnum][0], font=("Arial Narrow", 14, "bold"))
+        self.question.pack(pady=(30, 80))
 
         self.var1 = tk.IntVar()
 
-        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][1], value=1, variable=self.var1, font=("Arial Narrow", 18), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
-        self.answer1.grid(row=2)
+        self.answer1 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[self.qnum][1], value=1, variable=self.var1, font=("Arial Narrow", 15), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
+        self.answer1.pack()
 
-        self.answer2 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][2], value=2, variable=self.var1, font=("Arial Narrow", 18), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
-        self.answer2.grid(row=3)
+        self.answer2 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[self.qnum][2], value=2, variable=self.var1, font=("Arial Narrow", 15), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
+        self.answer2.pack()
 
-        self.answer3 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][3], value=3, variable=self.var1, font=("Arial Narrow", 18), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
-        self.answer3.grid(row=4)
+        self.answer3 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[self.qnum][3], value=3, variable=self.var1, font=("Arial Narrow", 15), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
+        self.answer3.pack()
 
-        self.answer4 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[qnum][4], value=4, variable=self.var1, font=("Arial Narrow", 18), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
-        self.answer4.grid(row=5)
+        self.answer4 = tk.Radiobutton(self.quiz_canvas, text=questions_and_answers[self.qnum][4], value=4, variable=self.var1, font=("Arial Narrow", 15), bg="#5D088E", fg="#F3D915", highlightthickness=0, pady=10)
+        self.answer4.pack()
 
-        self.confirm_button = tk.Button(self.quiz_canvas, bg="#5D088E", text="Confirm", command=self.test_progress, fg="#edd818", highlightthickness=0, font=("Arial Narrow", 18, "bold"))
-        self.confirm_button.grid(row=6, pady=20)
+        self.confirm_button = tk.Button(self.quiz_canvas, bg="#5D088E", text="Confirm", command=self.quiz_progress, fg="#edd818", highlightthickness=0, font=("Arial Narrow", 15, "bold"))
+        self.confirm_button.pack(pady=(10,0))
 
-        self.score_display = tk.Label(self.quiz_canvas, text="Score",  bg="#5D088E", fg="#edd818", font=("Arial Narrow", 18))
-        self.score_display.grid(row=7, pady=5)
+        self.warning_label = tk.Label(self.quiz_canvas, bg="#5D088E", fg="#edd818", highlightthickness=0, font=("Arial Narrow", 15, "bold"))
+        self.warning_label.pack(pady=(10,0))
+        
+        self.score_display = tk.Label(self.quiz_canvas, text="Score",  bg="#5D088E", fg="#edd818", font=("Arial Narrow", 15))
+        self.score_display.pack(pady=(10,0))
+
+    #function for randomising questions from the dictionary
+    def question_randomiser(self):
+        self.qnum = random.randint(1,10)
+        if self.qnum not in asked_questions:
+            asked_questions.append(self.qnum)
+        elif self.qnum in asked_questions:
+            self.question_randomiser()
     
+    #function for "confirm" button clicked setting up the next question
     def next_question(self):
-        question_randomiser()
+        self.question_randomiser()
         self.var1.set(0)
-        self.question.config(text=questions_and_answers[qnum][0])
+        self.question.config(text=questions_and_answers[self.qnum][0])
 
-        self.answer1.config(text=questions_and_answers[qnum][1])
-        self.answer2.config(text=questions_and_answers[qnum][2])
-        self.answer3.config(text=questions_and_answers[qnum][3])
-        self.answer4.config(text=questions_and_answers[qnum][4])
+        self.answer1.config(text=questions_and_answers[self.qnum][1])
+        self.answer2.config(text=questions_and_answers[self.qnum][2])
+        self.answer3.config(text=questions_and_answers[self.qnum][3])
+        self.answer4.config(text=questions_and_answers[self.qnum][4])
 
-    def test_progress(self):
-        global player_score
+    #function for "quit" button clicked, closing the window
+    def end_program(self):
+        window.withdraw()
+
+    #function to handle right answers and wrong answers, and when to end the quiz
+    def quiz_progress(self):
         score_label = self.score_display
         selection = self.var1.get()
-        if len(asked_questions) > 4:
-            if selection == questions_and_answers[qnum][6]:
-                player_score += 1
-                score_label.config(text="Score: " + str(player_score))
-                self.confirm_button.config(text="Confirm")
+        if len(asked_questions) > 9:
+            if selection == questions_and_answers[self.qnum][6]:
+                self.player_score += 1
+                score_label.config(text="Score: " + str(self.player_score))
+                self.confirm_button.config(text="Quit", command=self.end_program)
             elif selection == 0:
-                self.confirm_button.config(text="Please select an answer")
+                self.warning_label.config(text="Please select an answer")
                 selection = self.var1.get()
             else:
-                player_score += 0
-                score_label.config(text="The correct answer was: " + questions_and_answers[qnum][5])
-                self.confirm_button.config(text="Confirm")
+                self.player_score += 0
+                score_label.config(text="Score: " + str(self.player_score))
+                self.confirm_button.config(text="Quit", command=self.end_program)
         else:
             if selection == 0:
-                self.confirm_button.config(text="Please select an answer")
+                self.warning_label.config(text="Please select an answer")
                 selection = self.var1.get()
             else:
-                if selection == questions_and_answers[qnum][6]:
-                    player_score += 1
-                    score_label.config(text="Score: " + str(player_score))
+                if selection == questions_and_answers[self.qnum][6]:
+                    self.player_score += 1
+                    score_label.config(text="Score: " + str(self.player_score))
                     self.next_question()
                     self.confirm_button.config(text="Confirm")
                 else:
-                    player_score += 0
-                    score_label.config(text="The correct answer was: " + questions_and_answers[qnum][5])
+                    self.player_score += 0
+                    self.warning_label.config(text="The correct answer was: " + questions_and_answers[self.qnum][5])
                     self.confirm_button.config(text="Confirm")
                     self.next_question()
         
